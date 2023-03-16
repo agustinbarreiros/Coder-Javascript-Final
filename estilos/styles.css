@@ -1,0 +1,25 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+
+}
+h1, h2{
+    font-size: 50px;
+    color: black;
+} 
+.shopContent {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+div {
+    margin: 20px;
+}
+
+img {
+    height: 500px;
+    width: 500px;
+    border-radius: 200px;
+}
