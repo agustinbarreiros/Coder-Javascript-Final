@@ -5,21 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./estilos/styles.css">
+    
     <title>Document</title>
 </head>
 <body>
+
     <div class="nav-container">
 <nav class="nav-bar">
  <h1> PIZZERIA EL GAUCHO</h1>
- <h2 id="carrito">🛒</h1>
+ <h2 id="carrito">🛒 <span id="verCarrito" class="cantidadCarrito"></span> </h2> 
 </nav>
 
+<div>
+    <img  src="./imgs/top-banner.jpg" alt="top-banner" class="topBanner">
+</div>
+
 <!-- pizzas -->
+<div class="titulosPizzas"><h3>NUESTRAS PIZZAS</h3>
+</div>
 <div id="menuContent"  class="shopContent"></div>
 <!-- modal container-->
 <div id="modal-container" class="modalContainer"></div>
 </div>
- <script src="./main.js"></script>   
+
+<div class="banner">
+    <img  src="./imgs/banner.jpg" alt="banner">
+</div>
+
+<div id="climaContainer"></div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+<script src="./main.js"></script>
+  
 </body>
 </html>
 

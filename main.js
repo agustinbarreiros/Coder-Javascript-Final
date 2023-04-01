@@ -1,23 +1,30 @@
 const menuContent = document.getElementById("menuContent")
 const verCarrito = document.getElementById("carrito")
 const modalContainer = document.getElementById("modal-container")
-const pizzas = [
-    {id:1 , tipo: "muzzarella", img:"./imgs/muzzarella.jpg", precio: 1200},
-    {id:2, tipo: "fugazzetta", img:"./imgs/fugazzetta.jpg", precio: 1500},
-    {id:3, tipo: "napolitana",img:"./imgs/napolitana.webp", precio: 1550},
-    {id:4, tipo: "calabresa",img:"./imgs/calabresa.jpg", precio: 1800},
-    {id:5, tipo: "especial",img:"./imgs/especial.jpg", precio: 2000},  
-];
-
+const contarCarrito = document.getElementById("verCarrito")
 
 let carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
-pizzas.forEach((pizza) => {
+
+  
+const getPizzas = async() => {
+   try{
+    const response = await fetch("data.json");
+    const pizzas = await response.json();
+    return pizzas;
+    } catch (error){
+      console.error(error);
+}
+} 
+
+getPizzas().then((pizzas) => {
+    pizzas.forEach((pizza) => {
     let menu = document.createElement("div")
+    menu.className="card"
     menu.innerHTML = `
     <img src="${pizza.img}"></img>
     <h3> ${pizza.tipo}</h3>
-    <p> ${pizza.precio}
+    <p class="precio"> $ ${pizza.precio}
     `;
 
      menuContent.append(menu)  
@@ -29,14 +36,28 @@ pizzas.forEach((pizza) => {
     menu.append(comprar);
 
     comprar.addEventListener("click", () => {
+        const repetido = carrito.some((pizzaRepetida) => pizzaRepetida.id === pizza.id)
+        if (repetido){
+            carrito.map((pizz)=> {
+                if(pizz.id === pizza.id){
+                    pizz.cantidad++;
+                }
+            });
+
+        } else {
         carrito.push({
             id: pizza.id,
             img: pizza.img,
             nombre: pizza.tipo,
-            precio: pizza.precio
-        });
+            precio: pizza.precio,
+            cantidad: pizza.cantidad,
+            
+
+        })};
+        carritoCounter();
         guardarData();
-    })
+        })
+    });
 });
 
 
@@ -51,7 +72,7 @@ pizzas.forEach((pizza) => {
     modalContainer.append(modalHeader)
 
     const modalbutton = document.createElement("h1");
-    modalbutton.innerText = "x";
+    modalbutton.innerText = "❌";
     modalbutton.className="modal-header-button";
     modalbutton.addEventListener("click", ()=> {
         modalContainer.style.display = "none";
@@ -65,10 +86,13 @@ pizzas.forEach((pizza) => {
         <img src ="${pizza.img}">
         <h3>${pizza.nombre}</h3>
         <p> $ ${pizza.precio} </p>
-        <span class ="borrar-item"> X </span>
+        <p> Cantidad: ${pizza.cantidad} </p>
+        <p> Total : ${pizza.cantidad * pizza.precio} </p>
+        <span class ="borrar-item"> ✖ </span>
         `;
 
         modalContainer.append(carritoContent);
+
         let borrar = carritoContent.querySelector(".borrar-item")     
         borrar.addEventListener("click", () =>{
             eliminarPizza(pizza.id)
@@ -76,12 +100,46 @@ pizzas.forEach((pizza) => {
         })
     });
 
-    const precioTotal = carrito.reduce((acc, pizza) => acc + pizza.precio, 0)
+    const precioTotal = carrito.reduce((acc, pizza) => acc + pizza.precio * pizza.cantidad, 0)
     const totalCompra = document.createElement("div")
     totalCompra.className= "total-content"
-    totalCompra.innerHTML = `total a pagar $ ${precioTotal}`;
-    modalContainer.append(totalCompra)
+    totalCompra.innerHTML = `Total a pagar $ ${precioTotal}`;
+    modalContainer.append(totalCompra) 
+
+    const confirmarCompraBtn = document.createElement("button");
+    confirmarCompraBtn.innerText = "Confirmar compra";
+    confirmarCompraBtn.id = "confirmarCompraBtn";
+    confirmarCompraBtn.className="confirmarBtn"
+    modalContainer.append(confirmarCompraBtn);
+
+    confirmarCompraBtn.addEventListener('click', async () => {
+        if (carrito.length === 0) {
+          swal('Carrito vacio', 'Debes ingresar tus productos!', 'error');
+        } else {
+          const users = await getUsers();
+          const user = users[0];
+          const message = `Tu compra ha sido confirmada. Los productos serán enviados a ${user.location.city}, ${user.location.country} en un plazo de 30 minutos máximo!`;
+          swal('¡Compra realizada!', message, 'success');
+          carrito = [];
+          carritoCounter();
+          guardarData();
+          carritoCounter();
+          funcionesCarrito();
+        }
+      });   
+                
 };
+
+
+const getUsers = async () => {
+    try {
+      const response = await fetch('https://randomuser.me/api/?results=10');
+      const data = await response.json();
+      return data.results;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 verCarrito.addEventListener("click", funcionesCarrito)
 
@@ -95,12 +153,16 @@ const eliminarPizza = (id) => {
         return carritoId !== buscarId;
         
     })
-    
+    carritoCounter();
     funcionesCarrito();
+};
+
+const carritoCounter = () => {
+    contarCarrito.style.display ="block";
+    contarCarrito.innerText = carrito.length
 }
 
 const guardarData = () => {
     localStorage.setItem("carrito", JSON.stringify(carrito))}
-
 
 JSON.parse(localStorage.getItem("carrito"))

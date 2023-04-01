@@ -1,25 +1,162 @@
+
 nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 
 }
+
+body {
+    margin: 0px;
+}
+
 h1, h2{
     font-size: 50px;
-    color: black;
+    color: whitesmoke;
 } 
 .shopContent {
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    margin-top: 30px;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+.nav-bar{
+    background-color: rgb(148, 31, 1);
+    position:fixed;
+    width: 100%;
+    margin: 0px;
     
 }
 
-div {
-    margin: 20px;
+h3{
+    margin: 0px;
 }
 
-img {
-    height: 500px;
-    width: 500px;
-    border-radius: 200px;
+.titulosPizzas{
+    background-color: rgb(148, 31, 1);
+    margin-top: 2px;
+    text-align: center;
+    font-size: 35px;
+    padding: 10px;
+    color: whitesmoke;
+
+}
+.topBanner {
+    width: 100%;
+    margin: 150px 0px 0px;
+}
+.card{
+    box-shadow: 3px 8px 8px 2px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin:auto;
+    text-align: center;
+    font-family: Arial;
+}
+
+.precio{
+   color: rgb(43, 24, 24);
+   font-size: 20px;
+}
+.card > img {
+    width: 100%;
+    height: 250px;
+}
+
+.comprar{
+  border: none;
+  outline:0;
+  padding: 12px;
+  color: white;
+  background-color:  rgb(148, 31, 1);
+  text-align: center;
+  cursor: pointer;
+  width:100%;
+  font-size: 20px;
+}
+
+.comprar:hover{
+    opacity: 0.7;
+}
+.modalContainer{
+    width: 80%;
+    margin: 0 10%;
+    max-height: 80hv;
+    color:antiquewhite;
+    background-color: #121212;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    overflow:  auto;
+    position:absolute;
+    z-index: 9;
+    top:12vh;
+  
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0a0909;
+    width: 100%;
+}
+
+.modal-header-title, modal-header-button{
+    color: #fff;
+}
+
+.modal-header-button, .borrar-item{
+    cursor: pointer;
+}
+
+.modalContainer > .modal-content {
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+    align-items: center;
+    width: 70%;
+    margin:10px;
+}
+
+.total-content {
+    font-size: 25px;
+    padding: 20px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.modalContainer > div > img {
+    height: 120px;
+    width: 120px;
+}
+.banner{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.cantidadCarrito{
+    background-color: red;
+    color:white;
+    border-radius: 50%;
+    font-size: 13px;
+    padding: 5px;
+    top: 37px;
+    position: absolute;
+    display: none;
+}
+
+.confirmarBtn{
+    border: none;
+    outline:0;
+    padding: 12px;
+    margin-bottom: 5px;
+    color: rgb(5, 5, 5);
+    background-color: rgb(219, 230, 70);
+    text-align: center;
+    font-size: larger;
+    font-weight: solid;
+    cursor: pointer;
+    
 }
